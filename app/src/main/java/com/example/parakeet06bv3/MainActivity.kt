@@ -67,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         permissionManager = PermissionManager(this)
+
+
         sttEngine = SttEngine(this)
         localTranslator = LocalTranslator()
         sseClient = SseStreamClient(httpClient, BACKEND_URL)
@@ -86,8 +88,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         binding.btnStart.setOnClickListener {
-            if (permissionManager.hasAudioPermission()) startListening()
-            else permissionManager.requestAudioPermission()
+            if (permissionManager.hasAllPermissions()) startListening()
+            else permissionManager.requestPermissions()
         }
         binding.btnStop.setOnClickListener {
             sttEngine.stopListening()
@@ -108,14 +110,14 @@ class MainActivity : AppCompatActivity() {
         )
 
         // 2. STT 초기화
-        if (permissionManager.hasAudioPermission()) {
+        if (permissionManager.hasAllPermissions()) {
             lifecycleScope.launch {
                 val success = sttEngine.initModel()
                 if (success) checkDependenciesReady()
                 else binding.tvStatus.text = "STT 로드 에러"
             }
         } else {
-            permissionManager.requestAudioPermission()
+            permissionManager.requestPermissions()
         }
     }
 

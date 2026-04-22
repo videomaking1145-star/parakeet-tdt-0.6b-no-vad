@@ -61,6 +61,9 @@ android {
 }
 
 dependencies {
+
+
+    implementation("io.getstream:stream-webrtc-android:1.1.1")
     // Sherpa-ONNX 안드로이드 라이브러리 (최신 버전)
     implementation(files("libs/sherpa-onnx-1.12.28.aar"))
 
